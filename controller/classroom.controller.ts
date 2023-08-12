@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import Classroom from '../models/classroom.model'
+import ClassroomSubject from '../models/classroom_subject.model'
 
 export const create = async (
   req: Request & { user: { id: string } },
@@ -45,13 +46,18 @@ export const getAll = async (
   }
 }
 
-const getOneById = async (req: Request, res: Response, next: NextFunction) => {
+export const getOneById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const classroom = await Classroom.findById(req.params.id)
-    if (!classroom) {
-      return next({ status: 404, message: 'Classroom not found' })
-    }
-    res.send(classroom)
+    const classroom = await ClassroomSubject.find({
+      classroom: req.params.id,
+    })
+      .populate('subject')
+      .select('-classroom')
+    return res.status(200).send(classroom)
   } catch (error) {
     next(error)
   }
@@ -72,6 +78,23 @@ export const update = async (
       return next({ status: 404, message: 'Classroom not found' })
     }
     res.send(classroom)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const addSubject = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const classroomSubject = await ClassroomSubject.create({
+      classroom: req.body.classroom,
+      subject: req.body.subject,
+    })
+
+    return res.status(201).send(classroomSubject)
   } catch (error) {
     next(error)
   }
