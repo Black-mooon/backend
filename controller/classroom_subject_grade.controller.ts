@@ -1,6 +1,5 @@
 import { NextFunction, Response, Request } from 'express'
 import ClassroomSubjectGrade from '../models/classroom_subject_grade.model'
-import ClassroomSubject from '../models/classroom_subject.model'
 
 export const addClassroomSubjectGrade = async (
   req: Request & { user: { id: string } },
@@ -8,11 +7,13 @@ export const addClassroomSubjectGrade = async (
   next: NextFunction
 ) => {
   try {
-    const classroomSubjectGrade = await ClassroomSubjectGrade.find({
+    const classroomSubjectGrade = await new ClassroomSubjectGrade({
+      classroom: req.body.classroom,
+      subject: req.body.subject,
       student: req.user.id,
       marks: req.body.marks,
       maxMarks: req.body.maxMarks,
-    })
+    }).save()
     res.status(201).json(classroomSubjectGrade)
   } catch (error) {
     next(error)
@@ -62,16 +63,14 @@ export const getClassroomGradeForStudent = async (
 ) => {
   try {
     const classroomId = req.query.classroomId
+    const subjectId = req.query.subjectId
     const userId = req.user.id
 
-    const classroomSubjectsGradeId = await ClassroomSubject.find({
-      classroom: classroomId,
-    })
-
     const classroomSubjectGrade = await ClassroomSubjectGrade.find({
+      classroom: classroomId,
+      subject: subjectId,
       student: userId,
-      classroomSubject: classroomSubjectsGradeId,
-    })
+    }).populate('subject')
 
     res.status(200).json(classroomSubjectGrade)
   } catch (error) {

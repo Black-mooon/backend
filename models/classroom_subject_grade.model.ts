@@ -8,14 +8,21 @@ export interface IClassroomSubjectGrade extends mongoose.Document {
 
 const classroomSubjectGradeSchema = new mongoose.Schema(
   {
-    classroomSubject: {
+    classroom: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'ClassroomSubject',
+      ref: 'classroom',
       required: true,
     },
+
+    subject: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'subject',
+      required: true,
+    },
+
     student: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'user',
       required: true,
     },
     marks: {
