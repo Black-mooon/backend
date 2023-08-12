@@ -6,7 +6,8 @@ import helmet from 'helmet'
 import compression from 'compression'
 import dotenv from 'dotenv'
 import errorMiddleware from './middlewares/error.middleware'
-import userRouter from "./routes/user.route"
+import userRouter from './routes/user.route'
+import classroomRouter from './routes/classroom.route'
 
 dotenv.config()
 
@@ -22,8 +23,8 @@ app.use(morgan('dev'))
 
 // Routes
 
-app.use("/api/v1/user", userRouter);
-
+app.use('/api/v1/user', userRouter)
+app.use('/api/v1/classroom', classroomRouter)
 
 // Error Middleware
 app.use(errorMiddleware)

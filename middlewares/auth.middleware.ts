@@ -32,3 +32,39 @@ export const protect = (
     return
   }
 }
+
+export const isAdmin = async (
+  req: Request & { user: { id: string; role: string } },
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.user.role !== 'Admin') {
+    res.status(401).json({ message: 'not authorized' })
+    return
+  }
+  next()
+}
+
+export const isFaculty = async (
+  req: Request & { user: { id: string; role: string } },
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.user.role !== 'Faculty' && req.user.role !== 'Admin') {
+    res.status(401).json({ message: 'not authorized' })
+    return
+  }
+  next()
+}
+
+export const isStudent = async (
+  req: Request & { user: { id: string; role: string } },
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.user.role !== 'Student') {
+    res.status(401).json({ message: 'not authorized' })
+    return
+  }
+  next()
+}
