@@ -6,6 +6,8 @@ import helmet from 'helmet'
 import compression from 'compression'
 import dotenv from 'dotenv'
 import errorMiddleware from './middlewares/error.middleware'
+import userRouter from "./routes/user.route"
+
 dotenv.config()
 
 const app = express()
@@ -19,6 +21,9 @@ app.use(cors())
 app.use(morgan('dev'))
 
 // Routes
+
+app.use("/api/v1/user", userRouter);
+
 
 // Error Middleware
 app.use(errorMiddleware)
