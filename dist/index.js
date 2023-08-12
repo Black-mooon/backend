@@ -13,6 +13,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const error_middleware_1 = __importDefault(require("./middlewares/error.middleware"));
 const user_route_1 = __importDefault(require("./routes/user.route"));
 const classroom_route_1 = __importDefault(require("./routes/classroom.route"));
+const subject_route_1 = __importDefault(require("./routes/subject.route"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 // Middlewares
@@ -25,6 +26,7 @@ app.use((0, morgan_1.default)('dev'));
 // Routes
 app.use('/api/v1/user', user_route_1.default);
 app.use('/api/v1/classroom', classroom_route_1.default);
+app.use('/api/v1/subject', subject_route_1.default);
 // Error Middleware
 app.use(error_middleware_1.default);
 // Database Connection

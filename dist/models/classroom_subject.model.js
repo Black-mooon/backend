@@ -7,12 +7,12 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const classroomSubjectSchema = new mongoose_1.default.Schema({
     classroom: {
         type: mongoose_1.default.Schema.Types.ObjectId,
-        ref: 'Classroom',
+        ref: 'classroom',
         required: true,
     },
     subject: {
         type: mongoose_1.default.Schema.Types.ObjectId,
-        ref: 'Subject',
+        ref: 'subject',
         required: true,
     },
 }, {

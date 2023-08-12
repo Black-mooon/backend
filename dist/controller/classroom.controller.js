@@ -12,8 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.update = exports.getAll = exports.create = void 0;
+exports.addSubject = exports.update = exports.getOneById = exports.getAll = exports.create = void 0;
 const classroom_model_1 = __importDefault(require("../models/classroom.model"));
+const classroom_subject_model_1 = __importDefault(require("../models/classroom_subject.model"));
 const create = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const classroom = new classroom_model_1.default(Object.assign(Object.assign({}, req.body), { createdBy: req.user.id }));
@@ -46,16 +47,18 @@ const getAll = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
 exports.getAll = getAll;
 const getOneById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const classroom = yield classroom_model_1.default.findById(req.params.id);
-        if (!classroom) {
-            return next({ status: 404, message: 'Classroom not found' });
-        }
-        res.send(classroom);
+        const classroom = yield classroom_subject_model_1.default.find({
+            classroom: req.params.id,
+        })
+            .populate('subject')
+            .select('-classroom');
+        return res.status(200).send(classroom);
     }
     catch (error) {
         next(error);
     }
 });
+exports.getOneById = getOneById;
 const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const classroom = yield classroom_model_1.default.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -69,3 +72,16 @@ const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.update = update;
+const addSubject = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const classroomSubject = yield classroom_subject_model_1.default.create({
+            classroom: req.body.classroom,
+            subject: req.body.subject,
+        });
+        return res.status(201).send(classroomSubject);
+    }
+    catch (error) {
+        next(error);
+    }
+});
+exports.addSubject = addSubject;
