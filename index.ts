@@ -9,6 +9,7 @@ import errorMiddleware from './middlewares/error.middleware'
 import userRouter from './routes/user.route'
 import classroomRouter from './routes/classroom.route'
 import subjectRouter from "./routes/subject.route"
+import gradeRouter from "./routes/grade.route"
 
 dotenv.config()
 
@@ -27,6 +28,7 @@ app.use(morgan('dev'))
 app.use('/api/v1/user', userRouter)
 app.use('/api/v1/classroom', classroomRouter)
 app.use('/api/v1/subject', subjectRouter)
+app.use('/api/v1/grade', gradeRouter)
 
 // Error Middleware
 app.use(errorMiddleware)
