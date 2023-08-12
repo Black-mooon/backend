@@ -14,9 +14,13 @@ const subjectSchema = new mongoose.Schema(
         description: {
             type: String,
             required: true,
+            default: ""
         },
     },
     {
         timestamps: true,
     }
 )
+const Subject = mongoose.model('subject', subjectSchema)
+
+export default Subject
