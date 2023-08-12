@@ -18,11 +18,11 @@ const classroomSubjectGradeSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    grade: {
+    marks: {
       type: Number,
       required: true,
     },
-    maxGrade: {
+    maxMarks: {
       type: Number,
       required: true,
     },
